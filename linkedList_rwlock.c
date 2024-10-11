@@ -12,7 +12,7 @@ typedef struct Node {
 Node* head = NULL;
 pthread_rwlock_t list_rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
-void insert_rwclock(int value) {
+void insert_rwlock(int value) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     new_node->data = value;
     new_node->next = NULL;
@@ -37,7 +37,7 @@ void insert_rwclock(int value) {
     pthread_rwlock_unlock(&list_rwlock);
 }
 
-int member_rwclock(int value) {
+int member_rwlock(int value) {
     pthread_rwlock_rdlock(&list_rwlock);
 
     Node* current = head;
@@ -53,7 +53,7 @@ int member_rwclock(int value) {
     return 0;
 }
 
-void delete_rwclock(int value) {
+void delete_rwlock(int value) {
     pthread_rwlock_wrlock(&list_rwlock);
 
     if (head == NULL) {
@@ -88,8 +88,8 @@ void populate_list(int n) {
         int value;
         do {
             value = rand() % 65536;  // 2^16
-        } while (member_rwclock(value));
-        insert_rwclock(value);
+        } while (member_rwlock(value));
+        insert_rwlock(value);
     }
 }
 
@@ -107,13 +107,13 @@ void* perform_operations_rwlock(void* arg) {
         int value = rand() % 65536;
 
         if (op < args->m_member) {
-            member_rwclock(value);
+            member_rwlock(value);
         } else if (op < args->m_member + args->m_insert) {
-            if (!member_rwclock(value)) {
-                insert_rwclock(value);
+            if (!member_rwlock(value)) {
+                insert_rwlock(value);
             }
         } else {
-            delete_rwclock(value);
+            delete_rwlock(value);
         }
     }
     return NULL;
