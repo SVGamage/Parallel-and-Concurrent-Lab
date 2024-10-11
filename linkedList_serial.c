@@ -73,7 +73,7 @@ void populate_list(int n) {
     }
 }
 
-void perform_operations(int m, double m_member, double m_insert, double m_delete) {
+void perform_operations_serial(int m, double m_member, double m_insert, double m_delete) {
     for (int i = 0; i < m; i++) {
         double op = (double)rand() / RAND_MAX;
         int value = rand() % 65536;
