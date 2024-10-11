@@ -100,7 +100,7 @@ typedef struct {
     double m_delete;
 } ThreadArgs;
 
-void* perform_operations(void* arg) {
+void* perform_operations_rwlock(void* arg) {
     ThreadArgs* args = (ThreadArgs*)arg;
     for (int i = 0; i < args->m; i++) {
         double op = (double)rand() / RAND_MAX;
